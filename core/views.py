@@ -106,7 +106,7 @@ def home(request):
         'recent_projects': recent_projects,
         'user_details': user_details,
     }
-    breakpoint()
+    # breakpoint()
 
     return render(request, template_name="core/home.html", context=context)
 
