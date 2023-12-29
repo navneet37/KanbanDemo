@@ -43,3 +43,15 @@ class DeveloperProfile(models.Model):
 
     def __str__(self):
         return f"{self.base_user.username}"
+
+
+class Board(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
+    user = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.name
