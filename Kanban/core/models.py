@@ -50,8 +50,38 @@ class Board(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='board_updated_by')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='board_created_by')
     user = models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
+
+
+class List(models.Model):
+    name = models.CharField(max_length=255)
+    position = models.PositiveSmallIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='list_updated_by')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='list_created_by')
+
+
+class Card(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    list = models.ForeignKey(List, on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_updated_by')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_created_by')
+    user = models.ManyToManyField(User)
+
+
+class Comment(models.Model):
+    comment = models.TextField()
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now=True)
+
