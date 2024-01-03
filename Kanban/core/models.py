@@ -45,7 +45,7 @@ class DeveloperProfile(models.Model):
     technology = models.ForeignKey(Technology, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.base_user.username}"
+        return f"user - {self.base_user.username} tech - {self.technology}"
 
 
 class Board(models.Model):
@@ -70,6 +70,9 @@ class List(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='list_updated_by')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='list_created_by')
 
+    def __str__(self):
+        return self.name
+
 
 class Card(models.Model):
     name = models.CharField(max_length=255)
@@ -80,10 +83,16 @@ class Card(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_updated_by')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_created_by')
     user = models.ManyToManyField(User)
- 
+
+    def __str__(self):
+        return self.name
+
 
 class Comment(models.Model):
     comment = models.TextField()
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.comment[:10]}...'
