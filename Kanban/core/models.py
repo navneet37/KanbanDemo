@@ -15,6 +15,9 @@ class Role(models.Model):
 
     id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True)
 
+    def __str__(self):
+        return self.get_id_display()
+
 
 class User(AbstractUser):
     GENDER_CHOICES = (
@@ -77,11 +80,10 @@ class Card(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_updated_by')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='card_created_by')
     user = models.ManyToManyField(User)
-
+ 
 
 class Comment(models.Model):
     comment = models.TextField()
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now=True)
-
